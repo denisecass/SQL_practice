@@ -1,6 +1,6 @@
-# Practice SQL Questions 
+# SQL Practice Exercises 
 
-"Easy" level questions/prompts and coding solutions. 
+Questions/prompts and coding solutions to exercises from Learn SQL- Online SQL Terminal. 
 
 Source:
 https://www.sql-practice.com/ 
