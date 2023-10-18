@@ -3,7 +3,7 @@ Select first_name, last_name, gender
 From patients
 Where gender = 'M';
 
-#Show first name and last name of patients who does not have allergies. (null)
+#Show first name and last name of patients who does not have allergies (null).
 Select first_name, last_name
 From patients
 Where allergies IS NULL;
