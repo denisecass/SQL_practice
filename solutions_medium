@@ -97,3 +97,11 @@ order by sum_height DESC;
 SELECT (MAX(weight) - MIN(weight)) AS weight_delta
 FROM patients
 Where last_name = 'Maroni';
+
+#Show all of the days of the month (1-31) and how many admission_dates occurred on that day. 
+#Sort by the day with most admissions to least admissions.
+SELECT DAY(admission_date) AS day_number, COUNT(*) AS number_of_admissions
+FROM admissions
+WHERE MONTH(admission_date) BETWEEN 1 and 31
+GROUP BY day_number
+ORDER BY number_of_admissions DESC;
