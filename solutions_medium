@@ -129,4 +129,61 @@ WHERE
 SELECT d.first_name, d.last_name, COUNT(a.patient_id) AS admissions_total
 FROM doctors as d
 JOIN admissions AS a ON d.doctor_id = a.attending_doctor_id
-group by d.doctor_id, d.first_name, d.last_name;
+GROUP BY d.doctor_id, d.first_name, d.last_name;
+
+#For each doctor, display their id, full name, and the first and last admission date they attended.
+SELECT d.doctor_id AS doctor_id, 
+CONCAT(d.first_name, ' ', d.last_name) AS full_name,
+    MIN(a.admission_date) AS first_admission_date,
+    MAX(a.admission_date) AS last_admission_date
+FROM doctors as d
+JOIN admissions AS a ON d.doctor_id = a.attending_doctor_id
+GROUP BY d.doctor_id, full_name;
+
+#Display the total amount of patients for each province. Order by descending.
+SELECT COUNT(p.patient_id) AS patient_count, n.province_name 
+FROM patients as p 
+JOIN province_names AS n ON p.province_id = n.province_id
+GROUP BY n.province_name 
+ORDER BY patient_count DESC;
+
+#For every admission, display the patient's full name, their admission diagnosis, and their doctor's full name who diagnosed their problem.
+SELECT
+    CONCAT(p.first_name, ' ', p.last_name) AS patient_full_name,
+    a.diagnosis AS admission_diagnosis,
+    CONCAT(d.first_name, ' ', d.last_name) AS doctor_full_name
+FROM admissions a
+JOIN patients p ON a.patient_id = p.patient_id
+JOIN doctors d ON a.attending_doctor_id = d.doctor_id;
+
+#Display the number of duplicate patients based on their first_name and last_name.
+SELECT first_name, last_name, COUNT(*) AS duplicate_count
+FROM patients
+GROUP BY first_name, last_name
+HAVING COUNT(*) > 1;
+
+#Display patient's full name,
+#height in the units feet rounded to 1 decimal,
+#weight in the unit pounds rounded to 0 decimals,
+#birth_date,
+#gender non abbreviated.
+#Convert CM to feet by dividing by 30.48.
+#Convert KG to pounds by multiplying by 2.205.
+SELECT
+    CONCAT(first_name, ' ', last_name) AS patient_name,
+    ROUND(height / 30.48, 1) AS "height 'Feet'",
+    ROUND(weight * 2.205, 0) AS "weight 'Pounds'",
+    birth_date,
+    CASE
+        WHEN gender = 'M' THEN 'Male'
+        WHEN gender = 'F' THEN 'Female'
+        ELSE 'Other'
+    END AS gender_type
+FROM patients;
+
+#Show patient_id, first_name, last_name from patients whose does not have any records in the admissions table. 
+#(Their patient_id does not exist in any admissions.patient_id rows.)
+SELECT p.patient_id, p.first_name, p.last_name
+FROM patients AS p
+LEFT JOIN admissions AS a ON p.patient_id = a.patient_id
+WHERE a.patient_id IS NULL;
