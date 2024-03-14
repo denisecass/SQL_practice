@@ -75,3 +75,5 @@ Where  height > 160 and weight > 70;
 SELECT first_name, last_name, allergies
 FROM patients
 Where city = "Hamilton" AND allergies IS NOT NULL;
+
+#End of Code
